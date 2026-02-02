@@ -4,10 +4,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from django.db import transaction
-from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserUpdateSerializer
 
 
 class RegisterView(generics.CreateAPIView):
@@ -26,16 +25,18 @@ class LoginView(APIView):
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return Response({'success': True, "username": user.username})
-        return Response({'success': False}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def post(self, request):
         logout(request)
         return Response({'success': True})
 
@@ -44,31 +45,22 @@ class StatusView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        if request.user.is_authenticated:
-            return Response({"logged_in": True, "username": request.user.username})
-        return Response({"logged_in": False})
+        return Response({
+            "logged_in": request.user.is_authenticated,
+            "username": request.user.username if request.user.is_authenticated else None
+        })
 
 
-class UpdateUserView(APIView):
+class UpdateUserView(generics.UpdateAPIView):
+    serializer_class = UserUpdateSerializer
     permission_classes = [IsAuthenticated]
 
-    def put(self, request):
-        user = request.user
-        username = request.data.get("username")
-        password = request.data.get("password")
+    def get_object(self):
+        return self.request.user
 
-        if username:
-            if User.objects.filter(username=username).exclude(id=user.id).exists():
-                return Response({"error": "Username already taken"}, status=status.HTTP_400_BAD_REQUEST)
-            user.username = username
-
-        if password:
-            user.set_password(password)
-            update_session_auth_hash(request, user)
-
-        user.save()
-
-        return Response({"success": True, "username": user.username}, status=status.HTTP_200_OK)
+    def perform_update(self, serializer):
+        user = serializer.save()
+        update_session_auth_hash(self.request, user)
 
 
 class DeleteUserView(APIView):
