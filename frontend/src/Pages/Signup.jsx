@@ -46,7 +46,7 @@ function Signup() {
 
   return (
     <div className="absolute inset-0 bg-background h-screen flex items-center justify-center p-6 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[60px_60px]">
-      <div className="w-sm bg-card p-6 rounded-2xl border border-border shadow-sm">
+      <div className="w-sm bg-card p-6 rounded-2xl border border-border">
         <p className="text-2xl font-semibold text-center text-primary mb-6">
             Sign Up 
         </p>
