@@ -21,6 +21,8 @@ function Header(){
                 <a href="https://github.com/dima-kharchenko/boardly" target="_blank"><i className="fa-brands fa-github text-3xl hover:text-primary-a0 transition"></i></a>
                 <div>
                 <Dropdown
+                    menuClass={'mt-5 translate-x-1/8'}
+                    itemClass={'px-4 py-1'}
                     options={[
                         { text: "Home", onClick: () => navigate("/") },
                         { text: "Profile", onClick: () => navigate("/profile") },

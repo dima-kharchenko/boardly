@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 
 
-function Dropdown({ options, onChange, children }) {
+function Dropdown({ options, onChange, children, menuClass, itemClass }) {
     const [menuToggle, setMenuToggle] = useState(false)
 
     const dropdownRef = useRef(null)
@@ -29,11 +29,11 @@ function Dropdown({ options, onChange, children }) {
         {children?.(menuToggle)}
     </div>
     <div ref={dropdownRef}
-        className={`dropdown absolute z-20 right-0 grid gap-y-2 mt-2 p-2 rounded-xl bg-surface-a20 ring-1 ring-primary-a40 transition ${menuToggle ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}>
+        className={`${menuClass} dropdown absolute z-20 right-0 grid gap-y-2 mt-2 p-2 rounded-xl bg-surface-a20 ring-1 ring-primary-a40 transition ${menuToggle ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}>
         {options.map((item, index) => (
         <button 
             key={index} 
-            className={`whitespace-nowrap w-full px-3 py-2 rounded-lg text-primary-a20 font-medium cursor-pointer text-surface-a50 bg-primary-a50/50 ring ring-primary-a40 hover:ring-2 transition `}
+            className={`${itemClass} whitespace-nowrap w-full rounded-lg text-primary-a20 font-medium cursor-pointer text-surface-a50 bg-primary-a50/50 ring ring-primary-a40 hover:ring-2 transition `}
             onClick={() => {
               item.onClick?.()
               onChange?.(item)

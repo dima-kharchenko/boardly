@@ -24,8 +24,9 @@ function Home() {
                     />
                 </form>
                 <Dropdown
-                  onChange={setSort}
-                  options={[
+                    itemClass={'px-4 py-2'}
+                    onChange={setSort}
+                    options={[
                     { text: "Recently updated", value: "updated" },
                     { text: "Contributors", value: "contributors" },
                     { text: "Favorites", value: "favorites" },
