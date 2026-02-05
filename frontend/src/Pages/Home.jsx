@@ -1,33 +1,11 @@
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import Header from "../Components/Header"
+import Dropdown from "../Components/Dropdown"
+
 
 function Home() {
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState({text: "Recently updated", value: "updated"})
-    const [openSort, setOpenSort] = useState(false)
-
-    const dropdownRef = useRef(null)
-    const buttonRef = useRef(null)
-
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                !event.target.closest(".dropdown") &&
-                !event.target.closest(".dropdown-button")
-            ) {
-                setOpenSort(false)
-            }
-        }
-
-        document.addEventListener("mousedown", handleClickOutside)
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside)
-        }
-    }, [])
-
-    const toggleDropdown = () => {
-        setOpenSort(p => !p)
-    }
 
     return (
         <>
@@ -45,31 +23,22 @@ function Home() {
                       onChange={(e) => setSearch(e.target.value)}
                     />
                 </form>
-                <div className="relative">
+                <Dropdown
+                  onChange={setSort}
+                  options={[
+                    { text: "Recently updated", value: "updated" },
+                    { text: "Contributors", value: "contributors" },
+                    { text: "Favorites", value: "favorites" },
+                  ]}
+                >
+                    {(menuToggle) => (
                     <button 
-                        ref={buttonRef}
-                        onClick={toggleDropdown}
-                        className={`dropdown-button whitespace-nowrap flex items-center text-primary px-4 py-2 rounded-full cursor-pointer transition ${openSort ? 'bg-primary-a0 text-white' : 'bg-surface-a20 ring ring-primary-a40 hover:ring-2'}`}>
-                        {sort.text} 
-                        <i className="fa-solid fa-angle-down text-sm pl-2"></i>
+                        className={`dropdown-button whitespace-nowrap flex items-center text-primary px-4 py-2 rounded-full cursor-pointer transition ${menuToggle ? 'bg-primary-a0 text-white' : 'bg-surface-a20 ring ring-primary-a40 hover:ring-2'}`}>
+                        {sort.text}
+                        <i className="fa-solid fa-angle-down text-sm pl-2" />
                     </button>
-                    <div ref={dropdownRef}
-                        className={`dropdown grid gap-y-2 mt-2 p-2 right-1 absolute rounded-xl bg-surface-a20 ring-1 ring-primary-a40 transition ${openSort ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}`}>
-                        {[
-                            {text: "Recently updated", value: 'update'}, 
-                            {text: "Contributors", value: 'contributors'}, 
-                            {text: "Favorites", value: 'favorites'}
-                        ].map((button, index) => (
-                        <button 
-                            key={index} 
-                            className={`whitespace-nowrap w-full px-3 py-2 rounded-lg text-primary-a20 font-medium cursor-pointer text-surface-a50 bg-primary-a50/50 ring ring-primary-a40 hover:ring-2 transition `}
-                            onClick={() => setSort({text: button.text, value: button.value})}
-                        >
-                            {button.text} 
-                        </button>
-                        ))}
-                    </div>
-                </div>
+                    )}
+                </Dropdown>
                 <button className="whitespace-nowrap flex items-center text-white px-4 bg-primary-a0 rounded-full hover:bg-primary-a20 cursor-pointer transition">
                     <i className="fa-solid fa-plus text-xs pr-2"></i>
                     New Board 
