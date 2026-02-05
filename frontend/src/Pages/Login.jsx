@@ -46,11 +46,11 @@ function Login() {
 
   return (
     <div className="absolute inset-0 bg-surface-a10 h-screen flex items-center justify-center p-6 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[60px_60px]">
-      <div className="w-sm bg-surface-a20 p-6 rounded-2xl border border-primary-a40">
-        <p className="text-2xl font-semibold text-center text-primary-a0 mb-6">
+      <div className="w-sm text-primary-a0 bg-surface-a20 p-6 rounded-2xl border border-primary-a40">
+        <p className="text-2xl font-semibold text-center mb-6">
           Log In 
         </p>
-        <form className="space-y-4 text-primary-a0" onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
             <input
               type="text"
               id="username"
@@ -73,7 +73,7 @@ function Login() {
               className="w-full py-2 mt-4 rounded-lg bg-primary-a0 text-white font-medium hover:bg-primary-a20 cursor-pointer transition">
               Log In 
             </button>
-            <a className="text-primary-a0 hover:text-primary-a20 transition text-sm" href="/signup">Don't have an account?</a>
+            <a className="hover:text-primary-a20 transition text-sm" href="/signup">Don't have an account?</a>
         </form>
         {error && <p className="text-error font-bold text-sm mt-4 text-center">{error}</p>}
       </div>
