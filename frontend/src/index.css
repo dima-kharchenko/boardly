@@ -12,6 +12,10 @@
     --color-surface-a10: hsl(280, 40%, 97%);
     --color-surface-a20: hsl(0, 0%, 100%);
 
+    --color-border-a0: hsl(220, 15%, 85%);
+    --color-border-a10: hsl(220, 15%, 80%);
+    --color-border-a20: hsl(220, 15%, 75%);
+
     --color-error: hsl(0 91% 82%);
 
     --primary: hsl(220, 15%, 15%);
