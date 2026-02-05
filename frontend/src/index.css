@@ -18,8 +18,8 @@
 
     --color-error: hsl(0 91% 82%);
 
-    --primary: hsl(220, 15%, 15%);
-    --secondary: hsl(220, 15%, 40%);
-    --tertiary: hsl(220, 15%, 60%);
+    --color-primary: hsl(220, 15%, 15%);
+    --color-secondary: hsl(220, 15%, 40%);
+    --color-tertiary: hsl(220, 15%, 60%);
 }
 
