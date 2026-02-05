@@ -17,7 +17,6 @@ function Header(){
                 !event.target.closest(".dropdown-button")
             ) {
                 setMenuToggle(false)
-                setShowProfile(false)
             }
         }
 
