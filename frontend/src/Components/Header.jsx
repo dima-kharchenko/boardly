@@ -29,7 +29,9 @@ function Header(){
                         { text: "Logout", onClick: handleLogout },
                     ]}
                 >
-                {(menuToggle) => <i className={`fa-solid fa-bars cursor-pointer ${menuToggle && 'text-primary-a0'}`} />}
+                {(open) => (
+                    <i className={`fa-solid fa-bars cursor-pointer ${open && 'text-primary-a0'}`} />
+                )}
                 </Dropdown>
                 </div>
             </div>
