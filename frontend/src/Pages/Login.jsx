@@ -45,16 +45,16 @@ function Login() {
     }
 
   return (
-    <div className="absolute inset-0 bg-background h-screen flex items-center justify-center p-6 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[60px_60px]">
-      <div className="w-sm bg-card p-6 rounded-2xl border border-border">
-        <p className="text-2xl font-semibold text-center text-primary mb-6">
+    <div className="absolute inset-0 bg-surface-a10 h-screen flex items-center justify-center p-6 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[60px_60px]">
+      <div className="w-sm bg-surface-a20 p-6 rounded-2xl border border-primary-a40">
+        <p className="text-2xl font-semibold text-center text-primary-a0 mb-6">
           Log In 
         </p>
-        <form className="space-y-4 text-foreground" onSubmit={handleSubmit}>
+        <form className="space-y-4 text-primary-a0" onSubmit={handleSubmit}>
             <input
               type="text"
               id="username"
-              className={`w-full px-4 py-2 rounded-[0.5rem] bg-muted ring ring-border placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-border transition ${user.isValid || !user.value ? "" : "ring-2 ring-destructive"}`}
+              className={`w-full px-4 py-2 rounded-lg bg-primary-a50/50 focus:outline-none focus:ring-2 focus:ring-primary-a40 transition ${user.isValid || !user.value ? "ring ring-primary-a40" : "ring-2 ring-error"}`}
               placeholder="Username"
               name="username"
               value={user.value}
@@ -63,19 +63,19 @@ function Login() {
             <input
               type="password"
               id="password"
-              className={`w-full px-4 py-2 rounded-[0.5rem] bg-muted ring ring-border placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-border transition ${pwd.isValid || !pwd.value ? "" : "ring-2 ring-destructive"}`}
+              className={`w-full px-4 py-2 rounded-lg bg-primary-a50/50 focus:outline-none focus:ring-2 focus:ring-primary-a40 transition ${pwd.isValid || !pwd.value ? "ring ring-primary-a40" : "ring-2 ring-error"}`}
               placeholder="Password"
               value={pwd.value}
               onChange={(e) => setPwd(p => ({...p, value: e.target.value}))}
             />
             <button
               type="submit"
-              className="w-full py-2 mt-4 rounded-[0.5rem] bg-primary text-primary-foreground font-medium hover:bg-primary/90 cursor-pointer transition">
+              className="w-full py-2 mt-4 rounded-lg bg-primary-a0 text-white font-medium hover:bg-primary-a20 cursor-pointer transition">
               Log In 
             </button>
-            <a className="text-primary hover:text-secondary transition text-sm" href="/signup">Don't have an account?</a>
+            <a className="text-primary-a0 hover:text-primary-a20 transition text-sm" href="/signup">Don't have an account?</a>
         </form>
-        {error && <p className="text-destructive font-bold text-sm mt-4 text-center">{error}</p>}
+        {error && <p className="text-error font-bold text-sm mt-4 text-center">{error}</p>}
       </div>
     </div>  
     )
