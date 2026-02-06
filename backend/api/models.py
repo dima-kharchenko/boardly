@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Q
+
 
 
 class Board(models.Model):
@@ -7,6 +9,10 @@ class Board(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_boards")
     is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ("title", "owner")
 
 
 class BoardMember(models.Model):
@@ -18,6 +24,13 @@ class BoardMember(models.Model):
 
     class Meta:
         unique_together = ("board", "user")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["board"],
+                condition=Q(role="owner"),
+                name="unique_owner_per_board"
+            )
+        ]
 
 
 class BoardAction(models.Model):

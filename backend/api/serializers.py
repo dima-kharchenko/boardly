@@ -45,13 +45,24 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = '__all__'
+        fields = ("id", "title", "is_public", "created_at")
+        read_only_fields = ("id", "created_at")
 
 
 class BoardMemberSerializer(serializers.ModelSerializer):
+    board = BoardSerializer(read_only=True)
+
     class Meta:
         model = BoardMember
-        fields = '__all__'
+        fields = ("id", "role", "is_favorite", "joined_at", "board")
+
+    def create(self, validated_data):
+        if validated_data["role"] == "owner":
+            board = validated_data["board"]
+            if BoardMember.objects.filter(board=board, role="owner").exists():
+                raise serializers.ValidationError({"role": "Board already has an owner"})
+
+        return super().create(validated_data)
         
 
 class BoardActionSerializer(serializers.ModelSerializer):

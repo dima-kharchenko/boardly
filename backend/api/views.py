@@ -5,8 +5,10 @@ from rest_framework.views import APIView
 
 from django.db import transaction
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.shortcuts import get_object_or_404
 
-from .serializers import UserSerializer, UserUpdateSerializer
+from .serializers import BoardMemberSerializer, BoardSerializer, UserSerializer, UserUpdateSerializer
+from api.models import Board, BoardMember
 
 
 class RegisterView(generics.CreateAPIView):
@@ -73,4 +75,48 @@ class DeleteUserView(APIView):
             user.delete()
 
         return Response({"success": True}, status=status.HTTP_200_OK)
+
+
+class CreateBoardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = BoardSerializer(data=request.data)
+
+        if serializer.is_valid():
+            board = serializer.save(owner=request.user)
+
+            BoardMember.objects.create(
+                board=board,
+                user=request.user,
+                role="owner",
+            )
+
+            return Response(serializer.data, status=201)
+
+        return Response(serializer.errors, status=400)
+
+
+class DeleteBoardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, board_id):
+        board = get_object_or_404(
+                Board,
+                id=board_id,
+                owner=request.user,
+                )
+        board.delete()
+
+        return Response({'success': True}, status=status.HTTP_200_OK)
+
+
+class GetBoardsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        boards = request.user.board_memberships.all()
+        serializer = BoardMemberSerializer(boards, many=True)
+
+        return Response(serializer.data)
 
