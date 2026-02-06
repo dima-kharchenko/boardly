@@ -1,3 +1,31 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class Board(models.Model):
+    title = models.CharField(max_length=255)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_boards")
+    is_public = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class BoardMember(models.Model):
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="members")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="board_memberships")
+    role = models.CharField(max_length=20, choices={"owner": "owner", "editor": "editor", "viewer": "viewer"})
+    joined_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("board", "user")
+
+
+class BoardAction(models.Model):
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    action_type = models.CharField(max_length=20)
+    payload = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        indexes = [models.Index(fields=["board", "created_at"]),]
+
