@@ -22,7 +22,7 @@ function BoardCard() {
                         </div>
                     </div>
                     <div className="flex gap-1 items-center">
-                        <i class="fa-regular fa-user"></i>
+                        <i className="fa-regular fa-user"></i>
                         <p>3</p>
                     </div>
                 </div>

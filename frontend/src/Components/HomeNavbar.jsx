@@ -20,16 +20,15 @@ function HomeNavbar() {
         </form>
         <Dropdown
             itemClass={'px-4 py-2'}
-            onChange={setSort}
             options={[
-                { text: "Recently updated", value: "updated" },
-                { text: "Contributors", value: "contributors" },
-                { text: "Favorites", value: "favorites" },
+                { text: "Recently updated", onClick: () => setSort({text: "Recently updated", value: "updated"}) },
+                { text: "Contributors", onClick: () => setSort({text: "Contributors", value: "contributors"}) },
+                { text: "Favorites", onClick: () => setSort({text: "Favorites", value: "favorites"}) },
             ]}
         >
-            {(menuToggle) => (
+            {(open) => (
             <button 
-                className={`whitespace-nowrap flex items-center text-primary px-4 py-2 rounded-full cursor-pointer transition ${menuToggle ? 'bg-primary-a0 text-white' : 'bg-surface-a20 ring ring-primary-a40 hover:ring-2'}`}>
+                className={`whitespace-nowrap flex items-center text-primary px-4 py-2 rounded-full cursor-pointer transition ${open ? 'bg-primary-a0 text-white' : 'bg-surface-a20 ring ring-primary-a40 hover:ring-2'}`}>
                 {sort.text}
                 <i className="fa-solid fa-angle-down text-sm pl-2" />
             </button>

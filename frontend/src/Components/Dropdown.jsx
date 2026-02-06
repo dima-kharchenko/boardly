@@ -21,7 +21,6 @@ function Dropdown({ options, onChange, children, menuClass, itemClass }) {
 
     const handleSelect = (item) => {
         item.onClick?.()
-        onChange?.(item)
         setOpen(false)
     }
 
