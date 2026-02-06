@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from  .models import Board, BoardMember, BoardAction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,3 +41,20 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
+class BoardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Board
+        fields = '__all__'
+
+
+class BoardMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BoardMember
+        fields = '__all__'
+        
+
+class BoardActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BoardAction
+        fields = '__all__'
