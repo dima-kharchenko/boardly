@@ -13,6 +13,7 @@ class BoardMember(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="members")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="board_memberships")
     role = models.CharField(max_length=20, choices={"owner": "owner", "editor": "editor", "viewer": "viewer"})
+    is_favorite = models.BooleanField(default=False)
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
