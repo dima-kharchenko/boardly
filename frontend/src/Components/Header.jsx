@@ -30,7 +30,7 @@ function Header(){
                     ]}
                 >
                 {(open) => (
-                    <i className={`fa-solid fa-bars cursor-pointer ${open && 'text-primary-a0'}`} />
+                    <i className={`fa-solid fa-bars hover:text-primary-a0 cursor-pointer transition ${open && 'text-primary-a0'}`} />
                 )}
                 </Dropdown>
                 </div>
