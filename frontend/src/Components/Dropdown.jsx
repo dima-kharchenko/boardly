@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 
 
-function Dropdown({ options, onChange, children, menuClass, itemClass }) {
+function Dropdown({ options, children, menuClass, itemClass }) {
     const [open, setOpen] = useState(false)
 
     const dropdownRef = useRef(null)
@@ -35,7 +35,7 @@ function Dropdown({ options, onChange, children, menuClass, itemClass }) {
             {options.map((item, index) => (
             <button 
                 key={index} 
-                className={`${itemClass} whitespace-nowrap w-full rounded-lg text-primary-a20 font-medium cursor-pointer text-surface-a50 bg-primary-a50/50 ring ring-primary-a40 hover:ring-2 transition`}
+                className={`${itemClass} whitespace-nowrap w-full rounded-lg font-medium cursor-pointer bg-primary-a50/50 ring hover:ring-2 ${item.color ? item.color : "text-primary-a20 ring-primary-a40"} transition`}
                 onClick={() => handleSelect(item)}
             >
                 {item.text} 

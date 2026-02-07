@@ -1,16 +1,31 @@
-import dayjs from "../main"
+import dayjs from "../utils/dayjs"
+import Dropdown from "./Dropdown"
 
 
 function BoardCard({ data }) {
     return (
-        <div className="bg-surface-a20 rounded-2xl border border-border-a0 overflow-hidden">
-            <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" />
+        <div className="bg-surface-a20 rounded-2xl ring ring-border-a0 hover:ring-primary-a40 hover:ring-2 cursor-pointer transition">
+            <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" className="rounded-t-2xl"/>
             <div className="px-4 py-4">
                 <div className="flex justify-between items-center">
                     <p className="font-bold text-primary items-center">{data.board.title}</p> 
-                    <div className="flex gap-4 text-secondary">
+                    <div className="flex gap-4 text-secondary items-center">
                         <i className={`${data.is_favorite ? "fa-solid" : "fa-regular"} fa-star cursor-pointer hover:text-primary-a0 transition`}></i>
-                        <i className="fa-solid fa-ellipsis-vertical cursor-pointer hover:text-primary-a0 transition"></i>
+                        <Dropdown
+                            itemClass={"px-4 py-1"}
+                            options={[
+                                { text: "Rename", onClick: () => null },
+                                { text: "Share", onClick: () => null },
+                                { text: "Settings", onClick: () => null },
+                                { text: "Delete", onClick: () => null, color: "text-error"},
+                            ]}
+                        >  
+                            {(open) => (
+                                <div className="inline-flex p-2 -m-2 hover:text-primary-a0">
+                                    <i className={`fa-solid fa-ellipsis-vertical transition ${open && "text-primary-a0"}`}></i>
+                                </div>
+                            )}
+                        </Dropdown>
                     </div>
                 </div>
                 <div className="flex justify-between items-center mt-4 text-sm text-secondary">
