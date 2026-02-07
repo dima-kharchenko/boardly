@@ -23,7 +23,7 @@ function Modal({ children, trigger }) {
     return (
     <div className="relative">
         <div onClick={() => setOpen(p => !p)}>
-            {trigger?.(open)}
+            {trigger?.({ open, setOpen })}
         </div>
         <div
             className={`fixed inset-0 z-60 flex items-center justify-center bg-black/50 transition ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
@@ -32,7 +32,7 @@ function Modal({ children, trigger }) {
                 ref={modalRef}
                 className={`bg-surface-a20 rounded-xl p-4 ring-1 ring-primary-a40 transition ${open ? "scale-100" : "scale-95"}`}
             >
-            {children}
+            {children({ close: () => setOpen(false) })}
             </div>
         </div>
     </div>
