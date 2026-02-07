@@ -63,3 +63,8 @@ export const deleteUser = async () => {
     const res = await api.delete("auth/delete/")
     return res.data
 }
+
+export const getBoards = async () => {
+    const res = await api.get("boards/")
+    return res.data
+}

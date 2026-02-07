@@ -45,7 +45,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ("id", "title", "is_public", "created_at")
+        fields = ("id", "title", "is_public", "created_at", "updated_at")
         read_only_fields = ("id", "created_at")
 
 
@@ -54,7 +54,7 @@ class BoardMemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BoardMember
-        fields = ("id", "role", "is_favorite", "joined_at", "board")
+        fields = ("role", "is_favorite", "joined_at", "board")
 
     def create(self, validated_data):
         if validated_data["role"] == "owner":
