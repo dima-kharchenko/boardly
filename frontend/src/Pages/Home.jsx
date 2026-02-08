@@ -7,11 +7,16 @@ import { useEffect, useState } from "react"
 function Home() {
     const [boards, setBoards] = useState([])
 
+    const loadBoards = async () => {
+        const data = await getBoards()
+        setBoards(data)
+        return data
+    }
+
     useEffect(() => {
         (async () => {
             try {
-                const data = await getBoards()
-                setBoards(data)
+                await loadBoards()
             } catch(err) {
                 console.log(err)
             }
@@ -28,6 +33,7 @@ function Home() {
                     <BoardCard 
                         key={data.board.id}
                         data={data}
+                        loadBoards={loadBoards}
                     />
                 ))}
             </div>

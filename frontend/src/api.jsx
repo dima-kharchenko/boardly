@@ -68,3 +68,8 @@ export const getBoards = async () => {
     const res = await api.get("boards/")
     return res.data
 }
+
+export const deleteBoard = async (id) => {
+    const res = await api.delete(`boards/delete/${id}/`)
+    return res.data
+}

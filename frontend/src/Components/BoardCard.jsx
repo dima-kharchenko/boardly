@@ -4,12 +4,12 @@ import BoardSettingsModal from "./BoardSettingsModal"
 import BoardDeleteModal from "./BoardDeleteModal"
 
 
-function BoardCard({ data }) {
+function BoardCard({ data, loadBoards }) {
     let openSettings, openDelete
     return (
         <div className="bg-surface-a20 rounded-2xl ring ring-border-a0 hover:ring-primary-a40 hover:ring-2 cursor-pointer transition">
             <BoardSettingsModal onOpen={(fn) => (openSettings = fn)} />
-            <BoardDeleteModal onOpen={(fn) => (openDelete = fn)} />
+            <BoardDeleteModal onOpen={(fn) => (openDelete = fn)} boardId={data.board.id} loadBoards={loadBoards} />
 
             <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" className="rounded-t-2xl"/>
             <div className="px-4 py-4">
