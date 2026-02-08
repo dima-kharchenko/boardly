@@ -23,7 +23,7 @@ function BoardCard({ data, loadBoards }) {
                                 { text: "Rename", onClick: () => null },
                                 { text: "Share", onClick: () => null },
                                 { text: "Settings", onClick: () => openSettings() },
-                                { text: "Delete", onClick: () => openDelete(), color: "text-error"},
+                                { text: "Delete", onClick: () => openDelete(), color: "text-error bg-error/20"},
                             ]}
                         >  
                             {(open) => (

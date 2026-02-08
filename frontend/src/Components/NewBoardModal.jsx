@@ -16,6 +16,9 @@ function NewBoardModal({ onOpen, loadBoards }) {
             await createBoard({ title: title, is_public: isPublic, is_favorite: isFavorite })
             await loadBoards()
             close()
+            setTitle('')
+            setIsPublic(false)
+            setIsFavorite(false)
         } catch (e) {
             console.error(e)
             setError("Failed to create board")

@@ -33,7 +33,7 @@ function BoardDeleteModal({ onOpen, boardId, loadBoards }) {
                     <div className="flex gap-6 justify-center">
                         <button 
                             disabled={loading}
-                            className={`px-3 py-1 rounded-lg font-medium cursor-pointer bg-primary-a50/50 ring hover:ring-2 text-error ring-error disabled:opacity-50 transition`}
+                            className={`px-3 py-1 rounded-lg font-medium cursor-pointer bg-error/20 ring hover:ring-2 text-error ring-error disabled:opacity-50 transition`}
                             onClick={() => handleDelete(close)}
                         >
                         {loading ? "Deleting…" : "Delete"}

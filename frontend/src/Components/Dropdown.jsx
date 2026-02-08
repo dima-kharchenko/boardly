@@ -35,7 +35,7 @@ function Dropdown({ options, children, menuClass, itemClass }) {
             {options.map((item, index) => (
             <button 
                 key={index} 
-                className={`${itemClass} whitespace-nowrap w-full rounded-lg font-medium cursor-pointer bg-primary-a50/50 ring hover:ring-2 ${item.color ? item.color : "text-primary-a20 ring-primary-a40"} transition`}
+                className={`${itemClass} whitespace-nowrap w-full rounded-lg font-medium cursor-pointer ring hover:ring-2 ${item.color ? item.color : "bg-primary-a50/50 text-primary-a20 ring-primary-a40"} transition`}
                 onClick={() => handleSelect(item)}
             >
                 {item.text} 
