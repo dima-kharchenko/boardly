@@ -1,13 +1,15 @@
 import dayjs from "../utils/dayjs"
 import Dropdown from "./Dropdown"
 import BoardSettingsModal from "./BoardSettingsModal"
+import BoardDeleteModal from "./BoardDeleteModal"
 
 
 function BoardCard({ data }) {
-    let openSettings = () => {}
+    let openSettings, openDelete
     return (
         <div className="bg-surface-a20 rounded-2xl ring ring-border-a0 hover:ring-primary-a40 hover:ring-2 cursor-pointer transition">
             <BoardSettingsModal onOpen={(fn) => (openSettings = fn)} />
+            <BoardDeleteModal onOpen={(fn) => (openDelete = fn)} />
 
             <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" className="rounded-t-2xl"/>
             <div className="px-4 py-4">
@@ -21,7 +23,7 @@ function BoardCard({ data }) {
                                 { text: "Rename", onClick: () => null },
                                 { text: "Share", onClick: () => null },
                                 { text: "Settings", onClick: () => openSettings() },
-                                { text: "Delete", onClick: () => null, color: "text-error"},
+                                { text: "Delete", onClick: () => openDelete(), color: "text-error"},
                             ]}
                         >  
                             {(open) => (
