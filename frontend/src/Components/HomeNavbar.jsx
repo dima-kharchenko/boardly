@@ -1,12 +1,16 @@
 import { useState } from "react"
 import Dropdown from "../Components/Dropdown"
+import NewBoardModal from "./NewBoardModal"
 
-function HomeNavbar() {
+
+function HomeNavbar({ loadBoards }) {
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState({text: "Recently updated", value: "updated"})
+    let openNewBoard
 
     return (
     <div className="flex gap-4">
+        <NewBoardModal onOpen={(fn) => (openNewBoard = fn)} loadBoards={loadBoards} />
         <form className="w-full">
             <input
               type="text"
@@ -34,7 +38,10 @@ function HomeNavbar() {
             </button>
             )}
         </Dropdown>
-        <button className="whitespace-nowrap flex items-center text-white px-4 bg-primary-a0 rounded-full hover:bg-primary-a20 cursor-pointer transition">
+        <button 
+        className="whitespace-nowrap flex items-center text-white px-4 bg-primary-a0 rounded-full hover:bg-primary-a20 cursor-pointer transition"
+        onClick={() => openNewBoard()}
+        >
             <i className="fa-solid fa-plus text-xs pr-2"></i>
             New Board 
         </button>

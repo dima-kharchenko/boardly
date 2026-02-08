@@ -80,6 +80,7 @@ class DeleteUserView(APIView):
 class CreateBoardView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @transaction.atomic
     def post(self, request):
         serializer = BoardSerializer(data=request.data)
 
@@ -89,6 +90,7 @@ class CreateBoardView(APIView):
             BoardMember.objects.create(
                 board=board,
                 user=request.user,
+                is_favorite=request.data.get("is_favorite", False),
                 role="owner",
             )
 
