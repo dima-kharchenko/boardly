@@ -2,10 +2,21 @@ import dayjs from "../utils/dayjs"
 import Dropdown from "./Dropdown"
 import BoardSettingsModal from "./BoardSettingsModal"
 import BoardDeleteModal from "./BoardDeleteModal"
+import { updateMyBoardMember } from "../api"
 
 
 function BoardCard({ data, loadBoards }) {
     let openSettings, openDelete
+
+    const handleFavorite = async () => {
+        try {
+            await updateMyBoardMember(data.board.id, {is_favorite: !data.is_favorite})
+            await loadBoards()
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     return (
         <div className="bg-surface-a20 rounded-2xl ring ring-border-a0 hover:ring-primary-a40 hover:ring-2 cursor-pointer transition">
             <BoardSettingsModal onOpen={(fn) => (openSettings = fn)} />
@@ -16,7 +27,10 @@ function BoardCard({ data, loadBoards }) {
                 <div className="flex justify-between items-center">
                     <p className="font-bold text-primary items-center">{data.board.title}</p> 
                     <div className="flex gap-4 text-secondary items-center">
-                        <i className={`${data.is_favorite ? "fa-solid" : "fa-regular"} fa-star cursor-pointer hover:text-primary-a0 transition`}></i>
+                        <i 
+                            className={`${data.is_favorite ? "fa-solid" : "fa-regular"} fa-star cursor-pointer hover:text-primary-a0 transition`}
+                            onClick={() => handleFavorite()}
+                        ></i>
                         <Dropdown
                             itemClass={"px-4 py-1"}
                             options={[

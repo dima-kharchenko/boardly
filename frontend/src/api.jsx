@@ -78,3 +78,13 @@ export const createBoard = async (data) => {
     const res = await api.post('boards/create/', data)
     return res.data
 }
+
+export const updateBoard = async (board_id, data) => {
+    const res = await api.patch(`boards/update/${board_id}/`, data)
+    return res.data
+}
+
+export const updateMyBoardMember = async (board_id, data) => {
+    const res = await api.patch(`boards/${board_id}/member/`, data)
+    return res.data
+}
