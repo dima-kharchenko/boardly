@@ -135,3 +135,17 @@ class UpdateBoardView(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=400)
+
+
+class UpdateMyBoardMemberView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def patch(self, request, board_id):
+        member = get_object_or_404(BoardMember, board=board_id, user=request.user)
+        serializer = BoardMemberSerializer(member, request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=400)

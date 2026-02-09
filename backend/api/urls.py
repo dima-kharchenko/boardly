@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CreateBoardView, DeleteBoardView, GetBoardsView, RegisterView, LoginView, LogoutView, StatusView, UpdateBoardView, UpdateUserView, DeleteUserView
+from .views import CreateBoardView, DeleteBoardView, GetBoardsView, RegisterView, LoginView, LogoutView, StatusView, UpdateBoardView, UpdateMyBoardMemberView, UpdateUserView, DeleteUserView
 
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path("boards/create/", CreateBoardView.as_view(), name="create_board"),
     path("boards/delete/<int:board_id>/", DeleteBoardView.as_view(), name="delete_board"),
     path("boards/update/<int:board_id>/", UpdateBoardView.as_view(), name="update_board"),
+    path("boards/<int:board_id>/member/", UpdateMyBoardMemberView.as_view(), name="update_my_member"),
 ]

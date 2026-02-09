@@ -22,6 +22,13 @@ class BoardMember(models.Model):
     is_favorite = models.BooleanField(default=False)
     joined_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old = BoardMember.objects.get(pk=self.pk)
+            if old.role == "owner" and self.role != "owner":
+                raise ValueError("Owner role cannot be changed")
+        super().save(*args, **kwargs)
+
     class Meta:
         unique_together = ("board", "user")
         constraints = [
