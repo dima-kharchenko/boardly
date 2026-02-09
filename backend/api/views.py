@@ -122,3 +122,16 @@ class GetBoardsView(APIView):
 
         return Response(serializer.data)
 
+
+class UpdateBoardView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def patch(self, request, board_id):
+        board = get_object_or_404(Board, id=board_id, owner=request.user)
+        serializer = BoardSerializer(board, request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=400)
