@@ -19,7 +19,7 @@ function BoardCard({ data, loadBoards }) {
 
     return (
         <div className="bg-surface-a20 rounded-2xl ring ring-border-a0 hover:ring-primary-a40 hover:ring-2 cursor-pointer transition">
-            <BoardSettingsModal onOpen={(fn) => (openSettings = fn)} />
+            <BoardSettingsModal onOpen={(fn) => (openSettings = fn)} loadBoards={loadBoards} data={data} />
             <BoardDeleteModal onOpen={(fn) => (openDelete = fn)} boardId={data.board.id} loadBoards={loadBoards} />
 
             <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" className="rounded-t-2xl"/>
@@ -34,9 +34,8 @@ function BoardCard({ data, loadBoards }) {
                         <Dropdown
                             itemClass={"px-4 py-1"}
                             options={[
-                                { text: "Rename", onClick: () => null },
-                                { text: "Share", onClick: () => null },
                                 { text: "Settings", onClick: () => openSettings() },
+                                { text: "Share", onClick: () => null },
                                 { text: "Delete", onClick: () => openDelete(), color: "text-error bg-error/20"},
                             ]}
                         >  
