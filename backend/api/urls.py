@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import CreateBoardView, DeleteBoardView, GetBoardsView, RegisterView, LoginView, LogoutView, StatusView, UpdateBoardView, UpdateMyBoardMemberView, UpdateUserView, DeleteUserView
 
+from .views import (CreateBoardView, DeleteBoardView, DeleteUserView,
+                    GetBoardsView, LoginView, LogoutView, RegisterView,
+                    StatusView, UpdateBoardView, UpdateMyBoardMemberView,
+                    UpdateUserView)
 
 urlpatterns = [
     path("auth/register/", RegisterView.as_view(), name="register"),

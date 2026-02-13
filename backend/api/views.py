@@ -1,14 +1,16 @@
+from django.contrib.auth import (authenticate, login, logout,
+                                 update_session_auth_hash)
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from django.db import transaction
-from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
-from django.shortcuts import get_object_or_404
-
-from .serializers import BoardMemberSerializer, BoardSerializer, UserSerializer, UserUpdateSerializer
 from api.models import Board, BoardMember
+
+from .serializers import (BoardMemberSerializer, BoardSerializer,
+                          UserSerializer, UserUpdateSerializer)
 
 
 class RegisterView(generics.CreateAPIView):

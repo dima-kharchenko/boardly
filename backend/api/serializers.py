@@ -1,6 +1,8 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
-from  .models import Board, BoardMember, BoardAction
+from rest_framework import serializers
+
+from .models import Board, BoardAction, BoardMember
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
