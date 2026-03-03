@@ -3,10 +3,12 @@ import Dropdown from "./Dropdown"
 import BoardSettingsModal from "./BoardSettingsModal"
 import BoardDeleteModal from "./BoardDeleteModal"
 import { updateMyBoardMember } from "../api"
+import { useNavigate } from "react-router-dom"
 
 
 function BoardCard({ data, loadBoards }) {
     let openSettings, openDelete
+    const navigate = useNavigate()
 
     const handleFavorite = async () => {
         try {
@@ -22,7 +24,7 @@ function BoardCard({ data, loadBoards }) {
             <BoardSettingsModal onOpen={(fn) => (openSettings = fn)} loadBoards={loadBoards} data={data} />
             <BoardDeleteModal onOpen={(fn) => (openDelete = fn)} boardId={data.board.id} loadBoards={loadBoards} />
 
-            <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" className="rounded-t-2xl"/>
+            <img src="https://i.sstatic.net/y9DpT.jpg" alt="board preview" className="rounded-t-2xl" onClick={() => navigate(`/boards/${data.board.id}`)}/>
             <div className="px-4 py-4">
                 <div className="flex justify-between items-center">
                     <p className="font-bold text-primary items-center">{data.board.title}</p> 
