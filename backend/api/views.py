@@ -7,9 +7,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Board, BoardMember
+from api.models import Board, BoardAction, BoardMember
 
-from .serializers import (BoardMemberSerializer, BoardSerializer,
+from .serializers import (BoardActionSerializer, BoardMemberSerializer, BoardSerializer,
                           UserSerializer, UserUpdateSerializer)
 
 
@@ -151,3 +151,27 @@ class UpdateMyBoardMemberView(APIView):
             return Response(serializer.data)
 
         return Response(serializer.errors, status=400)
+
+
+class GetBoardActionsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, _, board_id):
+        actions = BoardAction.objects.filter(board_id=board_id).order_by('created_at')
+        serializer = BoardActionSerializer(actions, many=True)
+        return Response(serializer.data)
+
+
+class CreateBoardActionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, board_id):
+        serializer = BoardActionSerializer(data=request.data)
+
+        if serializer.is_valid():
+            board = get_object_or_404(Board, id=board_id)
+            serializer.save(user=request.user, board=board)
+            return Response(serializer.data, status=201)
+
+        return Response(serializer.errors, status=400)
+

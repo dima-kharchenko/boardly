@@ -1,12 +1,25 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Stage, Layer, Line } from "react-konva"
+import { createBoardAction, getBoardActions } from "../api"
 
-function BoardCanvas() {
+
+function BoardCanvas({ board_id }) {
     const stageRef = useRef(null)
 
     const [lines, setLines] = useState([])
     const [newLine, setNewLine] = useState()
     const isDrawing = useRef(false)
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await getBoardActions(board_id) 
+                setLines(data)
+            } catch(err) {
+                console.log(err)
+            }
+        })()
+    }, [])
 
     const handleMouseDown = () => {
         const stage = stageRef.current
@@ -14,7 +27,7 @@ function BoardCanvas() {
             const pointerPosition = stage.getPointerPosition()
             if (pointerPosition) {
                 const {x, y} = pointerPosition
-                setNewLine({id: Date.now(), points: [x, y]})
+                setNewLine({points: [x, y]})
                 isDrawing.current = true
             }
         }
@@ -33,10 +46,18 @@ function BoardCanvas() {
         }
     }
 
-    const handleMouseUp = () => {
-        setLines(p => ([...p, newLine]))
+    const handleMouseUp = async () => {
+        const tempId = Date.now()
+        setLines(p => ([...p, { payload: newLine, tempId }]))
         setNewLine(null)
         isDrawing.current = false
+
+        const savedLine = await createBoardAction(board_id, {
+            payload: newLine,
+            action_type: "stroke",
+        })
+
+        setLines(p => p.map(line => line.tempId === tempId ? savedLine : line))
     }
 
     return (
@@ -53,7 +74,7 @@ function BoardCanvas() {
                 {lines.map(line => (
                     <Line
                     key={line.id}
-                    points={line.points}
+                    points={line.payload.points}
                     stroke="black"
                     />
                 ))}

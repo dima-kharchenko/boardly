@@ -70,4 +70,5 @@ class BoardMemberSerializer(serializers.ModelSerializer):
 class BoardActionSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoardAction
-        fields = '__all__'
+        fields = ['id', 'board', 'user', 'action_type', 'payload', 'created_at']
+        read_only_fields = ['id', 'created_at', 'user', 'board']
