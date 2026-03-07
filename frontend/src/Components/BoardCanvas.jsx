@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from "react"
 import { Stage, Layer, Line } from "react-konva"
 import { createBoardAction, getBoardActions } from "../api"
+import { useNavigate } from "react-router-dom"
 
 
 function BoardCanvas({ board_id }) {
     const stageRef = useRef(null)
+    const navigate = useNavigate()
 
     const [lines, setLines] = useState([])
     const [newLine, setNewLine] = useState()
@@ -16,6 +18,9 @@ function BoardCanvas({ board_id }) {
                 const data = await getBoardActions(board_id) 
                 setLines(data)
             } catch(err) {
+                if (err.response?.status === 403) {
+                    navigate('/')
+                }
                 console.log(err)
             }
         })()

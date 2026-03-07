@@ -156,7 +156,10 @@ class UpdateMyBoardMemberView(APIView):
 class GetBoardActionsView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, _, board_id):
+    def get(self, request, board_id):
+        if not BoardMember.objects.filter(board_id=board_id, user=request.user).exists():
+            return Response({"detail": "Not a member of this board"}, status=status.HTTP_403_FORBIDDEN)
+
         actions = BoardAction.objects.filter(board_id=board_id).order_by('created_at')
         serializer = BoardActionSerializer(actions, many=True)
         return Response(serializer.data)
@@ -167,6 +170,9 @@ class CreateBoardActionView(APIView):
 
     def post(self, request, board_id):
         serializer = BoardActionSerializer(data=request.data)
+
+        if not BoardMember.objects.filter(board_id=board_id, user=request.user).exists():
+            return Response({"detail": "Not a member of this board"}, status=status.HTTP_403_FORBIDDEN)
 
         if serializer.is_valid():
             board = get_object_or_404(Board, id=board_id)
