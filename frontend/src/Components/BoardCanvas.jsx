@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react"
 import { Stage, Layer, Line } from "react-konva"
-import { createBoardAction, getBoardActions } from "../api"
+import { getBoardActions } from "../api"
 import { useNavigate } from "react-router-dom"
 
 
@@ -11,6 +11,7 @@ function BoardCanvas({ board_id }) {
     const [lines, setLines] = useState([])
     const [newLine, setNewLine] = useState()
     const isDrawing = useRef(false)
+    const socketRef = useRef(null)
 
     useEffect(() => {
         (async () => {
@@ -25,6 +26,26 @@ function BoardCanvas({ board_id }) {
             }
         })()
     }, [])
+
+    useEffect(() => {
+        const socket = new WebSocket(`ws://localhost:8000/ws/board/${board_id}/`)
+        socketRef.current = socket
+
+        socket.onmessage = (e) => {
+            const data = JSON.parse(e.data)
+            setLines(prev => {
+                if (data.tempId) {
+                    return prev.map(line => 
+                        line.tempId === data.tempId ? { ...data, id: data.id } : line
+                    )
+                }
+
+                return [...prev, data]
+            })
+        }
+
+        return () => socket.close()
+    }, [board_id])
 
     const handleMouseDown = () => {
         const stage = stageRef.current
@@ -52,17 +73,15 @@ function BoardCanvas({ board_id }) {
     }
 
     const handleMouseUp = async () => {
-        const tempId = Date.now()
-        setLines(p => ([...p, { payload: newLine, tempId }]))
-        setNewLine(null)
         isDrawing.current = false
+        const tempId = `temp_${Date.now()}`
+        setLines(prev => [...prev, { tempId: tempId, payload: newLine }])
+        setNewLine(null)
 
-        const savedLine = await createBoardAction(board_id, {
+        socketRef.current.send(JSON.stringify({
             payload: newLine,
-            action_type: "stroke",
-        })
-
-        setLines(p => p.map(line => line.tempId === tempId ? savedLine : line))
+            tempId
+        }))
     }
 
     return (
@@ -87,7 +106,7 @@ function BoardCanvas({ board_id }) {
                 {newLine && (
                     <Line 
                         points={newLine.points}
-                        stroke="black"
+                        stroke="gray"
                     />
                 )}
             </Layer>
